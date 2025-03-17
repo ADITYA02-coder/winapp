@@ -74,20 +74,32 @@ ttk.Checkbutton(win,text='Accept our Terms and conditions',variable=conditions).
 connection = sqlite3.connect('sql.db')
 cursor = connection.cursor()
 
-def collect_user_data():
-     firstname = first_name.get()
-     lastname = last_name.get()
-     emailid = email_id.get()
-     phonenumber = phone_number.get()
-     collegename = college_name.get()
-     coursevalue = course.get()
-     nationalityvalue = nationality.get()
-     hobbiesvalue = hobbies.get()
-     conditionsvalue = conditions.get()
+# This function take only 10 user numbers 
+def taketenNumber(phoneNumber):
+    phno = phoneNumber  # Get the input value from the entry
+    if len(phno) == 10 and phno.isdigit():  # Check if the input is exactly 10 digits and numeric
+        return phno
+    else:
+        return "Phone number must be 10 digits."
+          
 
-     query = 'INSERT INTO user VALUES (?,?,?,?);'
-     cursor.execute(query,(firstname,lastname,emailid,phonenumber))
-     connection.commit()
+def collect_user_data():
+     if  taketenNumber(phone_number.get()) == "Phone number must be 10 digits.":
+       ttk.Label(win,text="check your phone number",font=('arial',10,'bold')).grid(row=14,column=0,sticky=tk.W,padx=15,pady=5)
+     else:
+        firstname = first_name.get()
+        lastname = last_name.get()
+        emailid = email_id.get()
+        phonenumber = phone_number.get()
+        collegename = college_name.get()
+        coursevalue = course.get()
+        nationalityvalue = nationality.get()
+        hobbiesvalue = hobbies.get()
+        conditionsvalue = conditions.get()
+        
+        query = 'INSERT INTO user VALUES (?,?,?,?);'
+        cursor.execute(query,(firstname,lastname,emailid,phonenumber))
+        connection.commit()
 
 submit_btn = ttk.Button(win,text='Submit',width=50,command=collect_user_data)
 submit_btn.grid(row=10,column=0,columnspan=4,pady=20)
